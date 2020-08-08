@@ -4,8 +4,8 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { ApolloClient } from "apollo-client";
-import { InMemoryCache } from "apollo-cache-inmemory";
 import { HttpLink } from "apollo-link-http";
+import { InMemoryCache } from "apollo-cache-inmemory";
 import { onError } from "apollo-link-error";
 import { ApolloLink } from "apollo-link";
 import Products from "./pages/Products";
@@ -17,14 +17,7 @@ const cache = new InMemoryCache();
 
 cache.writeData({
   data: {
-    savedList: [
-      {
-        name: "",
-        price: "",
-        imgUrl: "",
-        __typename: "Product",
-      },
-    ],
+    list: [],
   },
 });
 
@@ -39,8 +32,10 @@ const client = new ApolloClient({
         );
       if (networkError) console.log(`[Network error]: ${networkError}`);
     }),
+    new HttpLink({ uri: "http://localhost:4000" }),
   ]),
   cache,
+  resolvers: {},
 });
 
 function App() {

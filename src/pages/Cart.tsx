@@ -18,33 +18,25 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const GET_SAVED_LIST = gql`
   {
-    savedList @client {
+    list @client {
       name
       price
-      lmgUrl
     }
   }
 `;
 
-function ListItemLink(props: ListItemProps<"a", { button?: true }>) {
-  return <ListItem button component="a" {...props} />;
-}
-
 export default function SimpleList() {
   const classes = useStyles();
-  const { data, loading, error }: any = useQuery(GET_SAVED_LIST);
+  const { data, loading, error } = useQuery(GET_SAVED_LIST);
 
   if (loading) return <div>loading...</div>;
   if (error) return <div>Error</div>;
-
-  console.log("savedList");
-  console.log(data?.savedList);
 
   return (
     <div className={classes.root}>
       <List component="nav" aria-label="secondary mailbox folders">
         {data &&
-          data?.savedList.map(({ name, price }: any) => (
+          data?.list.map(({ name, price }: any) => (
             <ListItem button>
               <ListItemText primary={name} />
             </ListItem>

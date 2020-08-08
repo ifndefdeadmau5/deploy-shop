@@ -1,9 +1,20 @@
 import React from "react";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import {
+  createStyles,
+  makeStyles,
+  Theme,
+  withStyles,
+} from "@material-ui/core/styles";
 import MenuIcon from "@material-ui/icons/Menu";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
-import { AppBar, Toolbar, Typography, IconButton } from "@material-ui/core";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  IconButton,
+  Badge,
+} from "@material-ui/core";
 import { Link } from "react-router-dom";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 
@@ -21,29 +32,30 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const GET_SAVED_LIST = gql`
+const GET_LIST = gql`
   {
-    savedList @client {
+    list @client {
       name
       price
-      lmgUrl
     }
   }
 `;
 
-export default function ButtonAppBar() {
+const StyledBadge = withStyles((theme: Theme) => ({
+  badge: {
+    right: -3,
+    top: 13,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: "0 4px",
+  },
+}))(Badge);
+
+export default () => {
   const classes = useStyles();
-  const { data, loading, error }: any = useQuery(GET_SAVED_LIST, {
-    onError: (e) => {
-      console.log(e);
-    },
-  });
+  const { data, loading, error } = useQuery(GET_LIST);
 
   if (loading) return <div>loading...</div>;
   if (error) return <div>Error</div>;
-
-  console.log("savedList");
-  console.log(data?.savedList);
 
   return (
     <div className={classes.root}>
@@ -58,15 +70,18 @@ export default function ButtonAppBar() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            News
+            <Link to="/">Home</Link>
           </Typography>
+
           <Link to="/cart">
-            <IconButton>
-              <ShoppingCartIcon />
+            <IconButton aria-label="cart">
+              <StyledBadge badgeContent={data?.list.length} color="secondary">
+                <ShoppingCartIcon />
+              </StyledBadge>
             </IconButton>
           </Link>
         </Toolbar>
       </AppBar>
     </div>
   );
-}
+};
