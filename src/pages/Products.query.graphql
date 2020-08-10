@@ -19,3 +19,23 @@ mutation AddProduct($name: String, $price: String, $imgUrl: String) {
 mutation DeleteProduct($id: ID) {
   deleteProduct(id: $id)
 }
+
+query GetProduct($id: ID!) {
+  getProduct(id: $id) {
+    name
+    price
+    imgUrl
+    comments {
+      id
+      content
+      score
+      createdAt
+    }
+  }
+}
+
+mutation addComment($content: String!, $score: Float, $productId: ID!) {
+  addComment(content: $content, score: $score, productId: $productId) {
+    id
+  }
+}

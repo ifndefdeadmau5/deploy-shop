@@ -49,9 +49,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-interface Props extends Product {
-  onClick: (e: any) => void;
-}
+interface Props extends Product {}
 
 export const GalaxyCardDemo = React.memo(function GalaxyCard({
   id,
@@ -66,7 +64,8 @@ export const GalaxyCardDemo = React.memo(function GalaxyCard({
     refetchQueries: ["Products"],
   });
 
-  const handleDelete = () => {
+  const handleDelete = (e) => {
+    e.stopPropagation();
     deleteProduct({ variables: { id } });
   };
 

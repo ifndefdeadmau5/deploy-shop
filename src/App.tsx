@@ -12,6 +12,7 @@ import Products from "./pages/Products";
 import Layout from "./components/Layout";
 import Cart from "./pages/Cart";
 import "./App.css";
+import ProductDetail from "./pages/ProductDetail";
 
 const cache = new InMemoryCache();
 
@@ -49,6 +50,9 @@ function App() {
             <Switch>
               <Route exact path="/">
                 <Products />
+              </Route>
+              <Route exact path="/product">
+                <ProductDetail />
               </Route>
               <Route path="/cart">
                 <Cart />
