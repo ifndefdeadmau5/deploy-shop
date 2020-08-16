@@ -40,6 +40,7 @@ const client = new ApolloClient({
 });
 
 function App() {
+  console.log(1);
   return (
     <div>
       <CssBaseline />
