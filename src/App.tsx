@@ -33,7 +33,7 @@ const client = new ApolloClient({
         );
       if (networkError) console.log(`[Network error]: ${networkError}`);
     }),
-    new HttpLink({ uri: "http://localhost:4000" }),
+    new HttpLink({ uri: "https://warm-lowlands-66257.herokuapp.com/" }),
   ]),
   cache,
   resolvers: {},
